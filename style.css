@@ -570,3 +570,17 @@ footer {
         padding: 1.5rem;
     }
 }
+
+.user-welcome {
+    color: white;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+    margin-left: 15px;
+}
+
+.user-welcome span {
+    font-weight: 600;
+    color: #4cc9f0;
+}

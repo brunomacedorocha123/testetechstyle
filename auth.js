@@ -1,4 +1,4 @@
-// auth.js - Lógica de autenticação CORRIGIDA
+// auth.js - Lógica de autenticação CORRIGIDA E MELHORADA
 
 // Verificar autenticação e redirecionar
 async function checkAuthState() {
@@ -20,7 +20,7 @@ async function checkAuthState() {
             
         } else {
             // USUÁRIO NÃO LOGADO
-            if (currentPage === 'home.html') {
+            if (currentPage === 'home.html' || currentPage === 'dados.html') {
                 window.location.href = 'index.html';
             }
         }
@@ -29,9 +29,9 @@ async function checkAuthState() {
     }
 }
 
-// Atualizar interface do usuário logado
+// Atualizar interface do usuário logado - CORRIGIDA
 function updateUserInterface(user) {
-    const userName = user.user_metadata?.name || user.email;
+    const userName = user.user_metadata?.name || user.email || 'Usuário';
     const welcomeElement = document.getElementById('welcome-message');
     const userInfoElement = document.getElementById('user-info');
     
@@ -42,9 +42,18 @@ function updateUserInterface(user) {
     if (userInfoElement) {
         userInfoElement.textContent = `Email: ${user.email}`;
     }
+    
+    // NOVO: Atualizar saudação no header da home
+    const userNameElement = document.getElementById('user-name');
+    const userWelcomeElement = document.getElementById('user-welcome');
+    
+    if (userNameElement && userWelcomeElement) {
+        userNameElement.textContent = userName;
+        userWelcomeElement.style.display = 'block';
+    }
 }
 
-// Login
+// Login - CORRIGIDO
 async function handleLogin(email, password) {
     try {
         const { data, error } = await supabase.auth.signInWithPassword({
@@ -101,17 +110,43 @@ async function handleRegister(name, email, password) {
     }
 }
 
-// Logout
+// Logout - CORRIGIDO
 async function handleLogout() {
     try {
-        await supabase.auth.signOut();
+        const { error } = await supabase.auth.signOut();
+        if (error) {
+            console.error('Erro ao fazer logout:', error);
+            return;
+        }
+        // Redirecionar para index após logout
         window.location.href = 'index.html';
     } catch (error) {
         console.error('Erro ao fazer logout:', error);
     }
 }
 
-// Mostrar mensagens
+// Atualizar dados do usuário - NOVA FUNÇÃO
+async function updateUserProfile(userData) {
+    try {
+        const { data, error } = await supabase.auth.updateUser({
+            data: {
+                name: userData.full_name,
+                full_name: userData.full_name
+            }
+        });
+        
+        if (error) {
+            console.error('Erro ao atualizar perfil:', error);
+            return false;
+        }
+        return true;
+    } catch (error) {
+        console.error('Erro ao atualizar perfil:', error);
+        return false;
+    }
+}
+
+// Mostrar mensagens - CORRIGIDA
 function showMessage(elementId, message, type) {
     const element = document.getElementById(elementId);
     if (element) {
@@ -119,13 +154,18 @@ function showMessage(elementId, message, type) {
         element.className = `message ${type}`;
         element.style.display = 'block';
         
+        // Scroll para a mensagem se for erro
+        if (type === 'error') {
+            element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        
         setTimeout(() => {
             element.style.display = 'none';
         }, 5000);
     }
 }
 
-// Verificar confirmação de email na URL
+// Verificar confirmação de email na URL - CORRIGIDA
 function checkEmailConfirmation() {
     const urlParams = new URLSearchParams(window.location.hash.substring(1));
     const type = urlParams.get('type');
@@ -138,7 +178,25 @@ function checkEmailConfirmation() {
     }
 }
 
-// Event Listeners quando DOM carregar - CORRIGIDO
+// Obter usuário atual - NOVA FUNÇÃO
+async function getCurrentUser() {
+    try {
+        const { data: { user }, error } = await supabase.auth.getUser();
+        if (error) throw error;
+        return user;
+    } catch (error) {
+        console.error('Erro ao obter usuário:', error);
+        return null;
+    }
+}
+
+// Verificar se usuário está autenticado - NOVA FUNÇÃO
+async function isAuthenticated() {
+    const user = await getCurrentUser();
+    return user !== null;
+}
+
+// Event Listeners quando DOM carregar - CORRIGIDO E MELHORADO
 document.addEventListener('DOMContentLoaded', function() {
     // Verificar autenticação
     checkAuthState();
@@ -151,9 +209,23 @@ document.addEventListener('DOMContentLoaded', function() {
     if (loginForm) {
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            // CORREÇÃO: IDs específicos
-            const email = loginForm.querySelector('input[type="email"]').value;
-            const password = loginForm.querySelector('input[type="password"]').value;
+            
+            const emailInput = loginForm.querySelector('input[type="email"]');
+            const passwordInput = loginForm.querySelector('input[type="password"]');
+            
+            if (!emailInput || !passwordInput) {
+                showMessage('login-message', 'Campos de email e senha não encontrados.', 'error');
+                return;
+            }
+            
+            const email = emailInput.value.trim();
+            const password = passwordInput.value;
+            
+            if (!email || !password) {
+                showMessage('login-message', 'Por favor, preencha todos os campos.', 'error');
+                return;
+            }
+            
             await handleLogin(email, password);
         });
     }
@@ -163,20 +235,61 @@ document.addEventListener('DOMContentLoaded', function() {
     if (registerForm) {
         registerForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            // CORREÇÃO: IDs específicos
-            const name = registerForm.querySelector('input[type="text"]').value;
-            const email = registerForm.querySelector('input[type="email"]').value;
-            const password = registerForm.querySelector('input[type="password"]').value;
+            
+            const nameInput = registerForm.querySelector('input[type="text"]');
+            const emailInput = registerForm.querySelector('input[type="email"]');
+            const passwordInput = registerForm.querySelector('input[type="password"]');
+            
+            if (!nameInput || !emailInput || !passwordInput) {
+                showMessage('register-message', 'Campos do formulário não encontrados.', 'error');
+                return;
+            }
+            
+            const name = nameInput.value.trim();
+            const email = emailInput.value.trim();
+            const password = passwordInput.value;
+            
+            if (!name || !email || !password) {
+                showMessage('register-message', 'Por favor, preencha todos os campos.', 'error');
+                return;
+            }
+            
+            if (password.length < 6) {
+                showMessage('register-message', 'A senha deve ter pelo menos 6 caracteres.', 'error');
+                return;
+            }
+            
             await handleRegister(name, email, password);
         });
     }
     
-    // Logout Button
+    // Logout Button - CORRIGIDO
     const logoutBtn = document.getElementById('logout-btn');
     if (logoutBtn) {
         logoutBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            handleLogout();
+            // Confirmação antes de sair
+            if (confirm('Tem certeza que deseja sair?')) {
+                handleLogout();
+            }
         });
+    }
+    
+    // Atualizar saudação se usuário estiver logado em qualquer página
+    setTimeout(async () => {
+        const user = await getCurrentUser();
+        if (user) {
+            updateUserInterface(user);
+        }
+    }, 100);
+});
+
+// Listener para mudanças de autenticação - NOVO
+supabase.auth.onAuthStateChange((event, session) => {
+    if (event === 'SIGNED_IN' && session) {
+        console.log('Usuário logado:', session.user.email);
+        updateUserInterface(session.user);
+    } else if (event === 'SIGNED_OUT') {
+        console.log('Usuário deslogado');
     }
 });
