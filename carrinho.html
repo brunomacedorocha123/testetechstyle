@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrinho - TechStyle</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase.js"></script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">🛍️ TechStyle</div>
+                <nav>
+                    <ul>
+                        <li><a href="home.html">Início</a></li>
+                        <li><a href="produtos.html">Produtos</a></li>
+                        <li><a href="carrinho.html" class="active">Carrinho (<span id="cart-count">0</span>)</a></li>
+                        <li><a href="dados.html">Meus Dados</a></li>
+                        <li class="user-welcome" id="user-welcome">
+                            👋 Olá, <span id="user-name">Usuário</span>
+                        </li>
+                        <li><a href="#" id="logout-btn">Sair</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="page-header">
+            <h1>Meu Carrinho</h1>
+            <p>Revise seus produtos antes da compra</p>
+        </div>
+
+        <div class="cart-container">
+            <!-- Carrinho vazio -->
+            <div id="empty-cart" class="empty-cart" style="display: none;">
+                <div class="empty-cart-content">
+                    <h2>🛒 Seu carrinho está vazio</h2>
+                    <p>Que tal explorar nossos produtos incríveis?</p>
+                    <a href="produtos.html" class="btn-primary">Ver Produtos</a>
+                </div>
+            </div>
+
+            <!-- Carrinho com itens -->
+            <div id="cart-with-items" style="display: none;">
+                <div class="cart-items">
+                    <div id="cart-items-list">
+                        <!-- Itens do carrinho serão carregados aqui -->
+                    </div>
+                </div>
+
+                <div class="cart-summary">
+                    <div class="summary-card">
+                        <h3>Resumo do Pedido</h3>
+                        <div class="summary-line">
+                            <span>Subtotal:</span>
+                            <span id="subtotal">R$ 0,00</span>
+                        </div>
+                        <div class="summary-line">
+                            <span>Frete:</span>
+                            <span id="shipping">Grátis</span>
+                        </div>
+                        <div class="summary-line total">
+                            <span>Total:</span>
+                            <span id="total">R$ 0,00</span>
+                        </div>
+                        <button class="btn-primary large" id="checkout-btn">Finalizar Compra</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Loading -->
+            <div id="loading" class="loading">
+                <p>Carregando carrinho...</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>TechStyle</h3>
+                    <p>A melhor loja virtual de tecnologia e estilo de vida.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Links Rápidos</h3>
+                    <ul>
+                        <li><a href="home.html">Início</a></li>
+                        <li><a href="produtos.html">Produtos</a></li>
+                        <li><a href="carrinho.html">Carrinho</a></li>
+                        <li><a href="dados.html">Meus Dados</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contato</h3>
+                    <ul>
+                        <li>Email: contato@techstyle.com</li>
+                        <li>Telefone: (11) 9999-9999</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 TechStyle. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="auth.js"></script>
+    <script src="cart.js"></script>
+</body>
+</html>
