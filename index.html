@@ -3,173 +3,639 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TechStyle - Teste Cadastro</title>
+    <title>TechStyle - Loja Virtual</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --success-color: #4cc9f0;
+            --danger-color: #f72585;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --gray-color: #6c757d;
+        }
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         body {
-            background: #f5f7fb;
-            padding: 20px;
+            background-color: #f5f7fb;
+            color: var(--dark-color);
+            line-height: 1.6;
         }
         
         .container {
-            max-width: 500px;
-            margin: 50px auto;
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
         }
         
-        h1 {
-            text-align: center;
-            color: #4361ee;
-            margin-bottom: 30px;
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 20px;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+        
+        nav ul li a:hover {
+            opacity: 0.8;
+        }
+        
+        .auth-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 80vh;
+            padding: 2rem 0;
+        }
+        
+        .auth-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 450px;
+            padding: 2rem;
+        }
+        
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .auth-tab {
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--gray-color);
+            transition: all 0.3s;
+            border-bottom: 2px solid transparent;
+        }
+        
+        .auth-tab.active {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+        }
+        
+        .auth-form {
+            display: none;
+        }
+        
+        .auth-form.active {
+            display: block;
         }
         
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 1.5rem;
         }
         
-        label {
+        .form-group label {
             display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
         }
         
-        input {
+        .form-control {
             width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
+            padding: 0.75rem 1rem;
+            border: 1px solid #ced4da;
             border-radius: 5px;
-            font-size: 16px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
         }
         
-        button {
-            width: 100%;
-            padding: 12px;
-            background: #4361ee;
+        .form-control:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+        
+        .btn {
+            display: inline-block;
+            background: var(--primary-color);
             color: white;
             border: none;
+            padding: 0.75rem 1.5rem;
             border-radius: 5px;
-            font-size: 16px;
+            font-size: 1rem;
+            font-weight: 500;
             cursor: pointer;
+            transition: background 0.3s;
+            width: 100%;
         }
         
-        button:hover {
-            background: #3a0ca3;
+        .btn:hover {
+            background: var(--secondary-color);
         }
         
         .message {
-            padding: 10px;
-            margin: 10px 0;
+            padding: 0.75rem;
             border-radius: 5px;
+            margin-bottom: 1rem;
             text-align: center;
         }
         
-        .success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
+        .message.success {
+            background-color: rgba(76, 201, 240, 0.2);
+            color: #0c5460;
+            border: 1px solid rgba(76, 201, 240, 0.5);
         }
         
-        .error {
-            background: #f8d7da;
+        .message.error {
+            background-color: rgba(247, 37, 133, 0.2);
             color: #721c24;
-            border: 1px solid #f5c6cb;
+            border: 1px solid rgba(247, 37, 133, 0.5);
         }
         
-        .info {
-            background: #cce7ff;
-            color: #004085;
-            border: 1px solid #b3d7ff;
+        .home-container {
+            padding: 2rem 0;
         }
         
-        .debug {
-            background: #f8f9fa;
-            padding: 15px;
+        .welcome-section {
+            text-align: center;
+            padding: 3rem 0;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+        }
+        
+        .welcome-section h1 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .welcome-section p {
+            color: var(--gray-color);
+            max-width: 600px;
+            margin: 0 auto 1.5rem;
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .product-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .product-image {
+            height: 200px;
+            background-color: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray-color);
+            font-size: 3rem;
+        }
+        
+        .product-info {
+            padding: 1.5rem;
+        }
+        
+        .product-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .product-price {
+            color: var(--primary-color);
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .product-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
             border-radius: 5px;
-            margin-top: 20px;
-            font-size: 14px;
-            border: 1px solid #dee2e6;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.3s;
+        }
+        
+        .product-btn:hover {
+            background: var(--secondary-color);
+        }
+        
+        footer {
+            background: var(--dark-color);
+            color: white;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: var(--success-color);
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer-section ul li a {
+            color: #adb5bd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-section ul li a:hover {
+            color: white;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid #495057;
+            margin-top: 1.5rem;
+        }
+        
+        .email-confirmation {
+            background: #e7f5ff;
+            border: 1px solid #a5d8ff;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+            text-align: center;
+        }
+        
+        .email-confirmation h3 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .auto-login-message {
+            background: #d1fae5;
+            border: 1px solid #a7f3d0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            text-align: center;
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            nav ul {
+                margin-top: 1rem;
+                justify-content: center;
+            }
+            
+            .auth-card {
+                padding: 1.5rem;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>🔧 Teste Cadastro TechStyle</h1>
-        
-        <div class="form-group">
-            <label>Nome:</label>
-            <input type="text" id="name" placeholder="Seu nome completo">
+    <!-- Página de Login/Cadastro (index.html) -->
+    <div id="index-page">
+        <header>
+            <div class="container">
+                <div class="header-content">
+                    <div class="logo">
+                        <i>🛍️</i> TechStyle
+                    </div>
+                    <nav>
+                        <ul>
+                            <li><a href="#">Início</a></li>
+                            <li><a href="#">Produtos</a></li>
+                            <li><a href="#">Sobre</a></li>
+                            <li><a href="#">Contato</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </header>
+
+        <div class="auth-container">
+            <div class="auth-card">
+                <!-- Mensagem de confirmação automática -->
+                <div id="auto-login-message" class="auto-login-message" style="display: none;">
+                    <h3>🎉 Email Confirmado!</h3>
+                    <p>Fazendo login automaticamente...</p>
+                </div>
+
+                <div class="auth-tabs">
+                    <div class="auth-tab active" data-tab="login">Login</div>
+                    <div class="auth-tab" data-tab="register">Cadastro</div>
+                </div>
+
+                <!-- Formulário de Login -->
+                <form id="login-form" class="auth-form active">
+                    <div class="form-group">
+                        <label for="login-email">E-mail</label>
+                        <input type="email" id="login-email" class="form-control" placeholder="seu@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Senha</label>
+                        <input type="password" id="login-password" class="form-control" placeholder="Sua senha" required>
+                    </div>
+                    <button type="submit" class="btn">Entrar</button>
+                    <div id="login-message" class="message" style="display: none;"></div>
+                </form>
+
+                <!-- Formulário de Cadastro -->
+                <form id="register-form" class="auth-form">
+                    <div class="form-group">
+                        <label for="register-name">Nome Completo</label>
+                        <input type="text" id="register-name" class="form-control" placeholder="Seu nome completo" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-email">E-mail</label>
+                        <input type="email" id="register-email" class="form-control" placeholder="seu@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-password">Senha</label>
+                        <input type="password" id="register-password" class="form-control" placeholder="Crie uma senha (mín. 6 caracteres)" required minlength="6">
+                    </div>
+                    <div class="form-group">
+                        <label for="register-confirm-password">Confirmar Senha</label>
+                        <input type="password" id="register-confirm-password" class="form-control" placeholder="Confirme sua senha" required minlength="6">
+                    </div>
+                    <button type="submit" class="btn">Cadastrar</button>
+                    <div id="register-message" class="message" style="display: none;"></div>
+                    
+                    <div id="email-confirmation-message" class="email-confirmation" style="display: none;">
+                        <h3>📧 Verificação de E-mail Enviada!</h3>
+                        <p>Enviamos um link de confirmação para seu e-mail.</p>
+                        <p><strong>Verifique sua caixa de entrada e clique no link para ativar sua conta.</strong></p>
+                    </div>
+                </form>
+            </div>
         </div>
-        
-        <div class="form-group">
-            <label>E-mail:</label>
-            <input type="email" id="email" placeholder="seu@email.com">
-        </div>
-        
-        <div class="form-group">
-            <label>Senha:</label>
-            <input type="password" id="password" placeholder="Mínimo 6 caracteres">
-        </div>
-        
-        <button onclick="signUp()">Cadastrar e Testar</button>
-        
-        <div id="message" class="message" style="display: none;"></div>
-        
-        <div class="debug">
-            <strong>Informações de Debug:</strong>
-            <div id="debug"></div>
-        </div>
-        
-        <div class="info" style="margin-top: 20px; padding: 15px;">
-            <strong>📋 Para testar:</strong><br>
-            1. Clique em Cadastrar<br>
-            2. Verifique se recebeu o e-mail<br>
-            3. Me mostre as informações de debug
+
+        <footer>
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-section">
+                        <h3>TechStyle</h3>
+                        <p>A melhor loja virtual de tecnologia e estilo de vida. Encontre os melhores produtos com os melhores preços.</p>
+                    </div>
+                    <div class="footer-section">
+                        <h3>Links Rápidos</h3>
+                        <ul>
+                            <li><a href="#">Início</a></li>
+                            <li><a href="#">Produtos</a></li>
+                            <li><a href="#">Sobre Nós</a></li>
+                            <li><a href="#">Contato</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h3>Contato</h3>
+                        <ul>
+                            <li>Email: contato@techstyle.com</li>
+                            <li>Telefone: (11) 9999-9999</li>
+                            <li>Endereço: Rua das Flores, 123 - São Paulo, SP</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; 2023 TechStyle. Todos os direitos reservados.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Página Home (após login) -->
+    <div id="home-page" style="display: none;">
+        <header>
+            <div class="container">
+                <div class="header-content">
+                    <div class="logo">
+                        <i>🛍️</i> TechStyle
+                    </div>
+                    <nav>
+                        <ul>
+                            <li><a href="#">Início</a></li>
+                            <li><a href="#">Produtos</a></li>
+                            <li><a href="#">Carrinho</a></li>
+                            <li><a href="#" id="logout-btn">Sair</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </header>
+
+        <div class="container home-container">
+            <div class="welcome-section">
+                <h1 id="welcome-message">Bem-vindo à TechStyle!</h1>
+                <p id="user-info"></p>
+                <button class="btn" onclick="showProducts()">Explorar Produtos</button>
+            </div>
+
+            <div id="products-section" style="display: none;">
+                <h2 style="margin-bottom: 1.5rem;">Produtos em Destaque</h2>
+                <div class="products-grid">
+                    <div class="product-card">
+                        <div class="product-image">
+                            📱
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">Smartphone XYZ Pro</h3>
+                            <p class="product-price">R$ 1.299,99</p>
+                            <button class="product-btn">Adicionar ao Carrinho</button>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-image">
+                            💻
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">Notebook Ultra</h3>
+                            <p class="product-price">R$ 2.499,99</p>
+                            <button class="product-btn">Adicionar ao Carrinho</button>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-image">
+                            🎧
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">Fones de Ouvido Pro</h3>
+                            <p class="product-price">R$ 399,99</p>
+                            <button class="product-btn">Adicionar ao Carrinho</button>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-image">
+                            ⌚
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">Smartwatch Fit</h3>
+                            <p class="product-price">R$ 599,99</p>
+                            <button class="product-btn">Adicionar ao Carrinho</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
     <script>
+        // Configuração do Supabase
         const SUPABASE_URL = 'https://ifjakhtwtekzfzpsvhld.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlmamFraHR3dGVremZ6cHN2aGxkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk0MDk4NzEsImV4cCI6MjA3NDk4NTg3MX0.-2SA8MX7Lr7DjrMc_cBM9KfN1Bwo8ibU3GNks2x3Alc';
         
         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
         
-        async function signUp() {
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const message = document.getElementById('message');
-            const debug = document.getElementById('debug');
+        // Elementos da página
+        const indexPage = document.getElementById('index-page');
+        const homePage = document.getElementById('home-page');
+        const loginForm = document.getElementById('login-form');
+        const registerForm = document.getElementById('register-form');
+        const loginMessage = document.getElementById('login-message');
+        const registerMessage = document.getElementById('register-message');
+        const emailConfirmationMessage = document.getElementById('email-confirmation-message');
+        const autoLoginMessage = document.getElementById('auto-login-message');
+        const logoutBtn = document.getElementById('logout-btn');
+        const welcomeMessage = document.getElementById('welcome-message');
+        const userInfo = document.getElementById('user-info');
+        const productsSection = document.getElementById('products-section');
+        const authTabs = document.querySelectorAll('.auth-tab');
+        
+        // Verificar autenticação e confirmação de email
+        checkAuthAndEmailConfirmation();
+        
+        // Alternar entre abas
+        authTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabName = tab.getAttribute('data-tab');
+                
+                authTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                if (tabName === 'login') {
+                    loginForm.classList.add('active');
+                    registerForm.classList.remove('active');
+                    emailConfirmationMessage.style.display = 'none';
+                    autoLoginMessage.style.display = 'none';
+                } else {
+                    loginForm.classList.remove('active');
+                    registerForm.classList.add('active');
+                }
+            });
+        });
+        
+        // Login
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
             
-            // Limpar mensagens
-            message.style.display = 'none';
-            debug.innerHTML = '';
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
             
-            if (!name || !email || !password) {
-                showMessage('Preencha todos os campos!', 'error');
+            try {
+                const { data, error } = await supabase.auth.signInWithPassword({
+                    email,
+                    password
+                });
+                
+                if (error) {
+                    showMessage(loginMessage, `Erro: ${error.message}`, 'error');
+                } else {
+                    showMessage(loginMessage, 'Login realizado com sucesso!', 'success');
+                    showHomePage();
+                }
+            } catch (error) {
+                showMessage(loginMessage, 'Erro ao fazer login.', 'error');
+            }
+        });
+        
+        // Cadastro
+        registerForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const name = document.getElementById('register-name').value;
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            const confirmPassword = document.getElementById('register-confirm-password').value;
+            
+            if (password !== confirmPassword) {
+                showMessage(registerMessage, 'As senhas não coincidem.', 'error');
                 return;
             }
             
             if (password.length < 6) {
-                showMessage('A senha deve ter pelo menos 6 caracteres!', 'error');
+                showMessage(registerMessage, 'A senha deve ter pelo menos 6 caracteres.', 'error');
                 return;
             }
             
             try {
-                debug.innerHTML = '🔄 Enviando requisição de cadastro...<br>';
-                
                 const { data, error } = await supabase.auth.signUp({
-                    email: email,
-                    password: password,
+                    email,
+                    password,
                     options: {
                         data: {
                             name: name,
@@ -179,49 +645,106 @@
                     }
                 });
                 
-                // Debug detalhado
-                debug.innerHTML += `
-                    <br><strong>Resposta do Supabase:</strong>
-                    <br>✅ Sucesso: ${!error}
-                    <br>❌ Erro: ${error ? error.message : 'Nenhum'}
-                    <br>📧 Email: ${email}
-                    <br>👤 ID do Usuário: ${data?.user?.id || 'N/A'}
-                    <br>🔐 Confirmado: ${data?.user?.confirmed_at ? 'SIM' : 'NÃO'}
-                    <br>📨 Email enviado: ${data?.user?.identities?.length > 0 ? 'SIM' : 'NÃO'}
-                    <br>🔗 Redirect To: https://testetechstyle.netlify.app
-                `;
-                
                 if (error) {
-                    showMessage(`Erro: ${error.message}`, 'error');
-                } else {
-                    if (data.user && data.user.identities && data.user.identities.length === 0) {
-                        showMessage('Este e-mail já está cadastrado!', 'error');
+                    if (error.message.includes('already registered')) {
+                        showMessage(registerMessage, 'Este e-mail já está cadastrado. Faça login.', 'error');
                     } else {
-                        showMessage('✅ Cadastro realizado! Verifique seu e-mail para confirmação.', 'success');
+                        showMessage(registerMessage, `Erro: ${error.message}`, 'error');
                     }
+                } else {
+                    registerMessage.style.display = 'none';
+                    emailConfirmationMessage.style.display = 'block';
+                    registerForm.reset();
                 }
-                
             } catch (error) {
-                debug.innerHTML += `<br>💥 Erro catch: ${error.message}`;
-                showMessage('Erro inesperado. Tente novamente.', 'error');
+                showMessage(registerMessage, 'Erro no cadastro.', 'error');
+            }
+        });
+        
+        // Logout
+        logoutBtn.addEventListener('click', async (e) => {
+            e.preventDefault();
+            await supabase.auth.signOut();
+            showIndexPage();
+        });
+        
+        // Verificar autenticação e confirmação de email
+        async function checkAuthAndEmailConfirmation() {
+            // Primeiro, verificar se há confirmação de email na URL
+            const urlParams = new URLSearchParams(window.location.hash.substring(1));
+            const type = urlParams.get('type');
+            const accessToken = urlParams.get('access_token');
+            
+            if (type === 'signup' && accessToken) {
+                // Usuário acabou de confirmar email - fazer login automático
+                autoLoginMessage.style.display = 'block';
+                loginForm.style.display = 'none';
+                registerForm.style.display = 'none';
+                
+                try {
+                    const { data, error } = await supabase.auth.getSession();
+                    
+                    if (!data.session) {
+                        // Se não tem sessão, tentar usar o token
+                        const { data: sessionData, error: sessionError } = await supabase.auth.setSession({
+                            access_token: accessToken,
+                            refresh_token: ''
+                        });
+                        
+                        if (!sessionError && sessionData.session) {
+                            showHomePage();
+                        }
+                    } else {
+                        showHomePage();
+                    }
+                    
+                    // Limpar a URL
+                    window.history.replaceState({}, document.title, window.location.pathname);
+                    
+                } catch (error) {
+                    console.log('Erro no login automático:', error);
+                    autoLoginMessage.style.display = 'none';
+                    loginForm.style.display = 'block';
+                }
+            } else {
+                // Verificar sessão normal
+                const { data } = await supabase.auth.getSession();
+                
+                if (data.session) {
+                    const user = data.session.user;
+                    const userName = user.user_metadata?.name || user.email;
+                    welcomeMessage.textContent = `Bem-vindo, ${userName}!`;
+                    userInfo.textContent = `Email: ${user.email} | Conta confirmada: ${user.confirmed_at ? 'Sim' : 'Não'}`;
+                    showHomePage();
+                } else {
+                    showIndexPage();
+                }
             }
         }
         
-        function showMessage(text, type) {
-            const message = document.getElementById('message');
-            message.textContent = text;
-            message.className = `message ${type}`;
-            message.style.display = 'block';
+        function showHomePage() {
+            indexPage.style.display = 'none';
+            homePage.style.display = 'block';
+            autoLoginMessage.style.display = 'none';
         }
         
-        // Verificar se há confirmação na URL
-        const urlParams = new URLSearchParams(window.location.hash.substring(1));
-        const type = urlParams.get('type');
-        const accessToken = urlParams.get('access_token');
+        function showIndexPage() {
+            indexPage.style.display = 'block';
+            homePage.style.display = 'none';
+        }
         
-        if (type === 'signup' && accessToken) {
-            document.getElementById('debug').innerHTML = '🎉 Email confirmado via URL! Token recebido.';
-            showMessage('Email confirmado com sucesso!', 'success');
+        function showMessage(element, message, type) {
+            element.textContent = message;
+            element.className = `message ${type}`;
+            element.style.display = 'block';
+            setTimeout(() => {
+                element.style.display = 'none';
+            }, 5000);
+        }
+        
+        function showProducts() {
+            productsSection.style.display = 'block';
+            document.querySelector('.welcome-section .btn').style.display = 'none';
         }
     </script>
 </body>
