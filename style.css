@@ -48,10 +48,6 @@ header {
     align-items: center;
 }
 
-.logo i {
-    margin-right: 10px;
-}
-
 nav ul {
     display: flex;
     list-style: none;
@@ -66,10 +62,18 @@ nav ul li a {
     text-decoration: none;
     font-weight: 500;
     transition: opacity 0.3s;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
 }
 
 nav ul li a:hover {
     opacity: 0.8;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+nav ul li a.active {
+    background: rgba(255, 255, 255, 0.2);
+    font-weight: 600;
 }
 
 .btn-login {
@@ -111,11 +115,21 @@ nav ul li a:hover {
     border-radius: 5px;
     text-decoration: none;
     font-weight: 500;
-    transition: background 0.3s;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    text-align: center;
 }
 
 .btn-primary:hover {
     background: var(--secondary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(67, 97, 238, 0.3);
+}
+
+.btn-primary.large {
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
 }
 
 .btn-secondary {
@@ -128,11 +142,13 @@ nav ul li a:hover {
     text-decoration: none;
     font-weight: 500;
     transition: all 0.3s;
+    cursor: pointer;
 }
 
 .btn-secondary:hover {
     background: var(--primary-color);
     color: white;
+    transform: translateY(-1px);
 }
 
 /* PRODUCTS SECTION */
@@ -195,6 +211,115 @@ nav ul li a:hover {
     font-size: 1.5rem;
     font-weight: 700;
     margin-bottom: 1rem;
+}
+
+/* ===== PÁGINA MEUS DADOS - DESIGN MELHORADO ===== */
+.page-header {
+    text-align: center;
+    margin: 2rem 0 3rem;
+}
+
+.page-header h1 {
+    font-size: 2.5rem;
+    color: var(--dark-color);
+    margin-bottom: 0.5rem;
+}
+
+.page-header p {
+    color: var(--gray-color);
+    font-size: 1.1rem;
+}
+
+.profile-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.data-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+    margin-bottom: 2rem;
+    overflow: hidden;
+    border: 1px solid #eaeaea;
+}
+
+.card-header {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    padding: 1.5rem 2rem;
+}
+
+.card-header h2 {
+    margin: 0;
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.card-body {
+    padding: 2rem;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group.full-width {
+    grid-column: 1 / -1;
+}
+
+.form-group label {
+    font-weight: 600;
+    color: var(--dark-color);
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+}
+
+.form-group input,
+.form-group select {
+    padding: 0.75rem 1rem;
+    border: 2px solid #e1e5e9;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: white;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+}
+
+.form-group input.readonly {
+    background-color: #f8f9fa;
+    color: var(--gray-color);
+    border-color: #dee2e6;
+    cursor: not-allowed;
+}
+
+.form-group small {
+    margin-top: 0.25rem;
+    color: var(--gray-color);
+    font-size: 0.85rem;
+}
+
+.actions-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+    padding: 2rem;
+    text-align: center;
+    border: 1px solid #eaeaea;
 }
 
 /* AUTH PAGES */
@@ -294,21 +419,22 @@ nav ul li a:hover {
 
 /* MESSAGES */
 .message {
-    padding: 0.75rem;
-    border-radius: 5px;
-    margin-bottom: 1rem;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    margin: 1rem auto;
+    max-width: 800px;
+    font-weight: 500;
     text-align: center;
-    display: none;
 }
 
 .message.success {
-    background-color: rgba(76, 201, 240, 0.2);
+    background: rgba(76, 201, 240, 0.2);
     color: #0c5460;
     border: 1px solid rgba(76, 201, 240, 0.5);
 }
 
 .message.error {
-    background-color: rgba(247, 37, 133, 0.2);
+    background: rgba(247, 37, 133, 0.2);
     color: #721c24;
     border: 1px solid rgba(247, 37, 133, 0.5);
 }
@@ -373,6 +499,11 @@ footer {
     nav ul {
         margin-top: 1rem;
         justify-content: center;
+        flex-wrap: wrap;
+    }
+    
+    nav ul li {
+        margin: 0.5rem;
     }
     
     .hero h1 {
@@ -386,5 +517,56 @@ footer {
     
     .products-grid {
         grid-template-columns: 1fr;
+    }
+    
+    /* Responsivo para página de dados */
+    .form-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .card-body {
+        padding: 1.5rem;
+    }
+    
+    .card-header {
+        padding: 1.25rem 1.5rem;
+    }
+    
+    .actions-card {
+        padding: 1.5rem;
+    }
+    
+    .btn-primary.large {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 1rem;
+    }
+    
+    .page-header h1 {
+        font-size: 2rem;
+    }
+    
+    .profile-container {
+        padding: 0 0.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 0 15px;
+    }
+    
+    .hero {
+        padding: 3rem 0;
+    }
+    
+    .products-section {
+        padding: 3rem 0;
+    }
+    
+    .auth-card {
+        margin: 1rem;
+        padding: 1.5rem;
     }
 }
