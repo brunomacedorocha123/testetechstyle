@@ -198,18 +198,19 @@ nav ul li a.active {
 
 .product-image {
     height: 200px;
-    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    background: white; /* Fundo branco para imagens */
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
     font-size: 4rem;
+    padding: 1rem; /* Espaço ao redor da imagem */
 }
 
 .product-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain; /* MUDADO: contain em vez de cover */
 }
 
 .product-info {
@@ -345,16 +346,17 @@ nav ul li a.active {
     height: 80px;
     border-radius: 8px;
     overflow: hidden;
-    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    background: white; /* Fundo branco */
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 0.5rem; /* Espaço ao redor */
 }
 
 .cart-item-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain; /* MUDADO: contain em vez de cover */
 }
 
 .cart-item-info h3 {
