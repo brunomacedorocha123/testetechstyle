@@ -1,4 +1,4 @@
-// auth.js - Lógica de autenticação
+// auth.js - Lógica de autenticação CORRIGIDA
 
 // Verificar autenticação e redirecionar
 async function checkAuthState() {
@@ -9,7 +9,7 @@ async function checkAuthState() {
         
         if (data.session) {
             // USUÁRIO LOGADO
-            if (currentPage === 'index.html' || currentPage === 'login.html' || currentPage === 'cadastro.html') {
+            if (currentPage === 'index.html' || currentPage === '' || currentPage === 'login.html' || currentPage === 'cadastro.html') {
                 window.location.href = 'home.html';
             }
             
@@ -68,7 +68,7 @@ async function handleLogin(email, password) {
     }
 }
 
-// Cadastro
+// Cadastro - CORRIGIDO
 async function handleRegister(name, email, password) {
     try {
         const { data, error } = await supabase.auth.signUp({
@@ -79,7 +79,8 @@ async function handleRegister(name, email, password) {
                     name: name,
                     full_name: name
                 },
-                emailRedirectTo: window.location.origin + '/home.html'
+                // CORREÇÃO: URL absoluta do Netlify
+                emailRedirectTo: 'https://testetechstyle.netlify.app/home.html'
             }
         });
         
@@ -128,14 +129,16 @@ function showMessage(elementId, message, type) {
 function checkEmailConfirmation() {
     const urlParams = new URLSearchParams(window.location.hash.substring(1));
     const type = urlParams.get('type');
+    const accessToken = urlParams.get('access_token');
     
-    if (type === 'signup') {
+    if (type === 'signup' && accessToken) {
         showMessage('login-message', 'Email confirmado com sucesso! Faça login.', 'success');
+        // Limpar URL
         window.history.replaceState({}, document.title, window.location.pathname);
     }
 }
 
-// Event Listeners quando DOM carregar
+// Event Listeners quando DOM carregar - CORRIGIDO
 document.addEventListener('DOMContentLoaded', function() {
     // Verificar autenticação
     checkAuthState();
@@ -143,25 +146,27 @@ document.addEventListener('DOMContentLoaded', function() {
     // Verificar confirmação de email
     checkEmailConfirmation();
     
-    // Login Form
+    // Login Form - CORRIGIDO
     const loginForm = document.getElementById('login-form');
     if (loginForm) {
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const email = document.querySelector('#login-form input[type="email"]').value;
-            const password = document.querySelector('#login-form input[type="password"]').value;
+            // CORREÇÃO: IDs específicos
+            const email = loginForm.querySelector('input[type="email"]').value;
+            const password = loginForm.querySelector('input[type="password"]').value;
             await handleLogin(email, password);
         });
     }
     
-    // Register Form
+    // Register Form - CORRIGIDO
     const registerForm = document.getElementById('register-form');
     if (registerForm) {
         registerForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const name = document.querySelector('#register-form input[type="text"]').value;
-            const email = document.querySelector('#register-form input[type="email"]').value;
-            const password = document.querySelector('#register-form input[type="password"]').value;
+            // CORREÇÃO: IDs específicos
+            const name = registerForm.querySelector('input[type="text"]').value;
+            const email = registerForm.querySelector('input[type="email"]').value;
+            const password = registerForm.querySelector('input[type="password"]').value;
             await handleRegister(name, email, password);
         });
     }
