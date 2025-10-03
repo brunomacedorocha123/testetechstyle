@@ -1,9 +1,8 @@
 // products.js - Lógica de produtos e carrinho
 
 let allProducts = [];
-let cartItems = [];
 
-// Carregar produtos
+// Carregar produtos do banco
 async function loadProducts() {
     try {
         showLoading(true);
@@ -39,13 +38,13 @@ function displayProducts(products) {
     container.innerHTML = products.map(product => `
         <div class="product-card" data-id="${product.id}">
             <div class="product-image">
-                <img src="${product.image_url || 'placeholder.jpg'}" alt="${product.name}" 
-                     onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZGRkIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiM5OTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7imYAgUHJvZHV0bzwvdGV4dD48L3N2Zz4='">
+                <img src="${product.image_url}" alt="${product.name}" 
+                     onerror="this.style.display='none'; this.parentElement.innerHTML='📱';">
             </div>
             <div class="product-info">
                 <h3>${product.name}</h3>
                 <p class="product-description">${product.description}</p>
-                <p class="price">R$ ${product.price.toFixed(2)}</p>
+                <p class="price">R$ ${product.price.toFixed(2).replace('.', ',')}</p>
                 <p class="stock">Estoque: ${product.stock}</p>
                 <button class="btn-primary add-to-cart" 
                         onclick="addToCart('${product.id}')"
@@ -63,6 +62,7 @@ async function addToCart(productId) {
         const user = await getCurrentUser();
         if (!user) {
             alert('Por favor, faça login para adicionar produtos ao carrinho.');
+            window.location.href = 'login.html';
             return;
         }
         
@@ -111,7 +111,7 @@ async function addToCart(productId) {
         }
         
         updateCartCount();
-        showMessage('success-message', 'Produto adicionado ao carrinho!', 'success');
+        showSuccess('Produto adicionado ao carrinho!');
         
     } catch (error) {
         console.error('Erro ao adicionar ao carrinho:', error);
@@ -136,7 +136,10 @@ async function updateCartCount() {
         if (error) throw error;
         
         const totalItems = cart ? cart.reduce((sum, item) => sum + item.quantity, 0) : 0;
-        document.getElementById('cart-count').textContent = totalItems;
+        const cartCountElement = document.getElementById('cart-count');
+        if (cartCountElement) {
+            cartCountElement.textContent = totalItems;
+        }
         
     } catch (error) {
         console.error('Erro ao atualizar carrinho:', error);
@@ -207,12 +210,14 @@ function showError(message) {
     }
 }
 
-function showMessage(elementId, message, type) {
-    // Reutilizar a função do auth.js se disponível
-    if (window.showMessage) {
-        window.showMessage(elementId, message, type);
-    } else {
-        alert(message);
+function showSuccess(message) {
+    const successElement = document.getElementById('success-message');
+    if (successElement) {
+        successElement.textContent = message;
+        successElement.style.display = 'block';
+        setTimeout(() => {
+            successElement.style.display = 'none';
+        }, 3000);
     }
 }
 
@@ -220,7 +225,8 @@ function showMessage(elementId, message, type) {
 document.addEventListener('DOMContentLoaded', function() {
     loadProducts();
     setupFilters();
+    updateCartCount();
     
-    // Atualizar contador do carrinho a cada 30 segundos
-    setInterval(updateCartCount, 30000);
+    // Atualizar contador do carrinho a cada 10 segundos
+    setInterval(updateCartCount, 10000);
 });
