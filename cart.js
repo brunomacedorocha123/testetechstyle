@@ -143,17 +143,6 @@ function updateSummary(subtotal) {
     document.getElementById('total').textContent = `R$ ${subtotal.toFixed(2).replace('.', ',')}`;
 }
 
-// Finalizar compra
-function setupCheckout() {
-    const checkoutBtn = document.getElementById('checkout-btn');
-    if (checkoutBtn) {
-        checkoutBtn.addEventListener('click', () => {
-            alert('🎉 Compra finalizada com sucesso! Em breve você receberá um email de confirmação.');
-            // Aqui você pode adicionar lógica para limpar o carrinho após a compra
-        });
-    }
-}
-
 // Utilitários
 function showLoading(show) {
     const loading = document.getElementById('loading');
@@ -199,6 +188,5 @@ async function updateCartCount() {
 // Inicializar
 document.addEventListener('DOMContentLoaded', function() {
     loadCart();
-    setupCheckout();
     updateCartCount();
 });
