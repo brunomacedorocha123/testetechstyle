@@ -162,12 +162,15 @@ function showLoading(show) {
     }
 }
 
-// Atualizar contador do carrinho (reutilizar do products.js)
+// Atualizar contador do carrinho
 async function updateCartCount() {
     try {
         const user = await getCurrentUser();
         if (!user) {
-            document.getElementById('cart-count').textContent = '0';
+            const cartCountElements = document.querySelectorAll('#cart-count');
+            cartCountElements.forEach(element => {
+                element.textContent = '0';
+            });
             return;
         }
         
@@ -186,7 +189,10 @@ async function updateCartCount() {
         
     } catch (error) {
         console.error('Erro ao atualizar carrinho:', error);
-        document.getElementById('cart-count').textContent = '0';
+        const cartCountElements = document.querySelectorAll('#cart-count');
+        cartCountElements.forEach(element => {
+            element.textContent = '0';
+        });
     }
 }
 

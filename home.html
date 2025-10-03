@@ -10,24 +10,24 @@
 </head>
 <body>
     <header>
-    <div class="container">
-        <div class="header-content">
-            <div class="logo">🛍️ TechStyle</div>
-           <nav>
-    <ul>
-        <li><a href="home.html" class="active">Início</a></li>
-        <li><a href="produtos.html">Produtos</a></li>
-        <li><a href="#carrinho">Carrinho (<span id="cart-count">0</span>)</a></li>
-        <li><a href="dados.html">Meus Dados</a></li>
-        <li class="user-welcome" id="user-welcome">
-            👋 Olá, <span id="user-name">Usuário</span>
-        </li>
-        <li><a href="#" id="logout-btn">Sair</a></li>
-    </ul>
-</nav>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">🛍️ TechStyle</div>
+                <nav>
+                    <ul>
+                        <li><a href="home.html" class="active">Início</a></li>
+                        <li><a href="produtos.html">Produtos</a></li>
+                        <li><a href="carrinho.html">Carrinho (<span id="cart-count">0</span>)</a></li>
+                        <li><a href="dados.html">Meus Dados</a></li>
+                        <li class="user-welcome" id="user-welcome">
+                            👋 Olá, <span id="user-name">Usuário</span>
+                        </li>
+                        <li><a href="#" id="logout-btn">Sair</a></li>
+                    </ul>
+                </nav>
+            </div>
         </div>
-    </div>
-</header>
+    </header>
 
     <div class="container home-container">
         <div class="welcome-section">
@@ -40,47 +40,55 @@
             <h2>Nossos Produtos</h2>
             <div class="products-grid">
                 
-               <div class="product-card">
-    <div class="product-image">
-        <img src="smartphoneyxz.jpeg" alt="Smartphone XYZ Pro" 
-             onerror="this.style.display='none'; this.parentElement.innerHTML='📱';">
-    </div>
-    <div class="product-info">
-        <h3>Smartphone XYZ Pro</h3>
-        <p class="product-description">128GB, Câmera Tripla, Tela 6.7"</p>
-        <p class="price">R$ 1.299,99</p>
-        <button class="btn-primary" onclick="addToCartHome('SEU_PRODUCT_ID_AQUI')">Adicionar ao Carrinho</button>
-    </div>
-</div>
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="smartphoneyxz.jpeg" alt="Smartphone XYZ Pro" 
+                             onerror="this.style.display='none'; this.parentElement.innerHTML='📱';">
+                    </div>
+                    <div class="product-info">
+                        <h3>Smartphone XYZ Pro</h3>
+                        <p class="product-description">128GB, Câmera Tripla, Tela 6.7"</p>
+                        <p class="price">R$ 1.299,99</p>
+                        <button class="btn-primary" onclick="addToCartHome()">Adicionar ao Carrinho</button>
+                    </div>
                 </div>
 
                 <div class="product-card">
-                    <div class="product-image">💻</div>
+                    <div class="product-image">
+                        <img src="notebookultra.jpg" alt="Notebook Ultra" 
+                             onerror="this.style.display='none'; this.parentElement.innerHTML='💻';">
+                    </div>
                     <div class="product-info">
                         <h3>Notebook Ultra</h3>
                         <p class="product-description">i7, 16GB RAM, SSD 512GB</p>
                         <p class="price">R$ 2.499,99</p>
-                        <button class="btn-primary">Adicionar ao Carrinho</button>
+                        <button class="btn-primary" onclick="addToCartHome()">Adicionar ao Carrinho</button>
                     </div>
                 </div>
 
                 <div class="product-card">
-                    <div class="product-image">🎧</div>
+                    <div class="product-image">
+                        <img src="foneblue.jpg" alt="Fones Bluetooth Pro" 
+                             onerror="this.style.display='none'; this.parentElement.innerHTML='🎧';">
+                    </div>
                     <div class="product-info">
                         <h3>Fones Bluetooth Pro</h3>
                         <p class="product-description">Cancelamento de Ruído, 30h bateria</p>
                         <p class="price">R$ 399,99</p>
-                        <button class="btn-primary">Adicionar ao Carrinho</button>
+                        <button class="btn-primary" onclick="addToCartHome()">Adicionar ao Carrinho</button>
                     </div>
                 </div>
 
                 <div class="product-card">
-                    <div class="product-image">⌚</div>
+                    <div class="product-image">
+                        <img src="smartrelogio.jpg" alt="Smartwatch Fitness" 
+                             onerror="this.style.display='none'; this.parentElement.innerHTML='⌚';">
+                    </div>
                     <div class="product-info">
                         <h3>Smartwatch Fitness</h3>
                         <p class="product-description">Monitor cardíaco, GPS, à prova d'água</p>
                         <p class="price">R$ 599,99</p>
-                        <button class="btn-primary">Adicionar ao Carrinho</button>
+                        <button class="btn-primary" onclick="addToCartHome()">Adicionar ao Carrinho</button>
                     </div>
                 </div>
 
@@ -99,9 +107,9 @@
                     <h3>Links Rápidos</h3>
                     <ul>
                         <li><a href="home.html">Início</a></li>
-                        <li><a href="#produtos">Produtos</a></li>
-                        <li><a href="#carrinho">Carrinho</a></li>
-                         <li><a href="dados.html">Meus Dados</a></li>
+                        <li><a href="produtos.html">Produtos</a></li>
+                        <li><a href="carrinho.html">Carrinho</a></li>
+                        <li><a href="dados.html">Meus Dados</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
@@ -119,10 +127,46 @@
     </footer>
 
     <script src="auth.js"></script>
+    <script src="products.js"></script>
     <script>
         function showProducts() {
             document.getElementById('products-section').style.display = 'block';
             document.querySelector('.welcome-section button').style.display = 'none';
+        }
+
+        // Função simples para a home (redireciona para produtos)
+        function addToCartHome() {
+            alert('Para adicionar produtos ao carrinho, visite a página de produtos!');
+            window.location.href = 'produtos.html';
+        }
+
+        // Atualizar contador do carrinho na home
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCartCount();
+        });
+
+        async function updateCartCount() {
+            try {
+                const user = await getCurrentUser();
+                if (!user) {
+                    document.getElementById('cart-count').textContent = '0';
+                    return;
+                }
+                
+                const { data: cart, error } = await supabase
+                    .from('cart_items')
+                    .select('quantity')
+                    .eq('user_id', user.id);
+                
+                if (error) throw error;
+                
+                const totalItems = cart ? cart.reduce((sum, item) => sum + item.quantity, 0) : 0;
+                document.getElementById('cart-count').textContent = totalItems;
+                
+            } catch (error) {
+                console.error('Erro ao atualizar carrinho:', error);
+                document.getElementById('cart-count').textContent = '0';
+            }
         }
     </script>
 </body>
