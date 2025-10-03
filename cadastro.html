@@ -1,8 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro - TechStyle</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase.js"></script>
 </head>
 <body>
     <div class="auth-container">
@@ -10,11 +14,13 @@
             <h2>Crie sua conta</h2>
             <form id="register-form">
                 <input type="text" placeholder="Nome completo" required>
-                <input type="email" placeholder="E-mail" required>
-                <input type="password" placeholder="Senha" required>
+                <input type="email" placeholder="Seu e-mail" required>
+                <input type="password" placeholder="Senha (mínimo 6 caracteres)" required minlength="6">
                 <button type="submit">Cadastrar</button>
             </form>
-            <p>Já tem conta? <a href="login.html">Fazer login</a></p>
+            <div id="register-message" class="message" style="display: none;"></div>
+            <p>Já tem conta? <a href="login.html">Faça login aqui</a></p>
+            <p><a href="index.html">← Voltar para a loja</a></p>
         </div>
     </div>
     <script src="auth.js"></script>

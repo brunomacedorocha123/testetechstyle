@@ -23,39 +23,109 @@
         </div>
     </header>
 
-    <!-- BANNER DA LOJA -->
     <section id="inicio" class="hero">
         <div class="container">
             <h1>Tecnologia de Ponta, Preços Justos</h1>
-            <p>Smartphones, notebooks, acessórios e muito mais</p>
+            <p>Smartphones, notebooks, acessórios e muito mais com os melhores preços do mercado</p>
             <a href="#produtos" class="btn-primary">Ver Produtos</a>
         </div>
     </section>
 
-    <!-- PRODUTOS (visível para todos) -->
     <section id="produtos" class="products-section">
         <div class="container">
-            <h2>Nossos Produtos</h2>
+            <h2>Produtos em Destaque</h2>
             <div class="products-grid">
+                
                 <div class="product-card">
                     <div class="product-image">📱</div>
-                    <h3>Smartphone Pro</h3>
-                    <p class="price">R$ 1.299,99</p>
-                    <a href="login.html" class="btn-secondary">Comprar</a>
+                    <div class="product-info">
+                        <h3>Smartphone XYZ Pro</h3>
+                        <p class="product-description">128GB, Câmera Tripla, Tela 6.7"</p>
+                        <p class="price">R$ 1.299,99</p>
+                        <a href="login.html" class="btn-secondary">Comprar Agora</a>
+                    </div>
                 </div>
-                <!-- Mais produtos... -->
+
+                <div class="product-card">
+                    <div class="product-image">💻</div>
+                    <div class="product-info">
+                        <h3>Notebook Ultra</h3>
+                        <p class="product-description">i7, 16GB RAM, SSD 512GB</p>
+                        <p class="price">R$ 2.499,99</p>
+                        <a href="login.html" class="btn-secondary">Comprar Agora</a>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">🎧</div>
+                    <div class="product-info">
+                        <h3>Fones Bluetooth Pro</h3>
+                        <p class="product-description">Cancelamento de Ruído, 30h bateria</p>
+                        <p class="price">R$ 399,99</p>
+                        <a href="login.html" class="btn-secondary">Comprar Agora</a>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">⌚</div>
+                    <div class="product-info">
+                        <h3>Smartwatch Fitness</h3>
+                        <p class="product-description">Monitor cardíaco, GPS, à prova d'água</p>
+                        <p class="price">R$ 599,99</p>
+                        <a href="login.html" class="btn-secondary">Comprar Agora</a>
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
 
-    <!-- CHAMADA PARA CADASTRO -->
     <section class="cta-section">
         <div class="container">
-            <h2>Cadastre-se e Ganhe Descontos!</h2>
-            <a href="cadastro.html" class="btn-primary">Criar Conta Grátis</a>
+            <div class="cta-content">
+                <h2>Junte-se a milhares de clientes satisfeitos</h2>
+                <p>Cadastre-se gratuitamente e ganhe frete grátis na primeira compra!</p>
+                <div class="cta-buttons">
+                    <a href="cadastro.html" class="btn-primary">Criar Conta Gratuita</a>
+                    <a href="login.html" class="btn-secondary">Já tenho conta</a>
+                </div>
+            </div>
         </div>
     </section>
 
-    <footer><!-- Footer --></footer>
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>TechStyle</h3>
+                    <p>A melhor loja virtual de tecnologia e estilo de vida.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Links Rápidos</h3>
+                    <ul>
+                        <li><a href="#inicio">Início</a></li>
+                        <li><a href="#produtos">Produtos</a></li>
+                        <li><a href="#sobre">Sobre</a></li>
+                        <li><a href="#contato">Contato</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contato</h3>
+                    <ul>
+                        <li>Email: contato@techstyle.com</li>
+                        <li>Telefone: (11) 9999-9999</li>
+                        <li>Endereço: São Paulo, SP</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 TechStyle. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase.js"></script>
+    <script src="auth.js"></script>
 </body>
 </html>

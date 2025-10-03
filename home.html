@@ -1,8 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Minha Conta - TechStyle</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase.js"></script>
 </head>
 <body>
     <header>
@@ -21,21 +25,96 @@
         </div>
     </header>
 
-    <!-- MESMOS PRODUTOS mas com funcionalidades COMPLETAS -->
-    <section class="products-section">
-        <div class="container">
-            <h2>Olá, [Nome do Usuário]!</h2>
+    <div class="container home-container">
+        <div class="welcome-section">
+            <h1 id="welcome-message">Bem-vindo à TechStyle!</h1>
+            <p id="user-info"></p>
+            <button class="btn-primary" onclick="showProducts()">Explorar Produtos</button>
+        </div>
+
+        <div id="products-section" style="display: none;">
+            <h2>Nossos Produtos</h2>
             <div class="products-grid">
+                
                 <div class="product-card">
                     <div class="product-image">📱</div>
-                    <h3>Smartphone Pro</h3>
-                    <p class="price">R$ 1.299,99</p>
-                    <button class="btn-primary">Adicionar ao Carrinho</button>
+                    <div class="product-info">
+                        <h3>Smartphone XYZ Pro</h3>
+                        <p class="product-description">128GB, Câmera Tripla, Tela 6.7"</p>
+                        <p class="price">R$ 1.299,99</p>
+                        <button class="btn-primary">Adicionar ao Carrinho</button>
+                    </div>
                 </div>
-                <!-- Produtos com botões COMPLETOS -->
+
+                <div class="product-card">
+                    <div class="product-image">💻</div>
+                    <div class="product-info">
+                        <h3>Notebook Ultra</h3>
+                        <p class="product-description">i7, 16GB RAM, SSD 512GB</p>
+                        <p class="price">R$ 2.499,99</p>
+                        <button class="btn-primary">Adicionar ao Carrinho</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">🎧</div>
+                    <div class="product-info">
+                        <h3>Fones Bluetooth Pro</h3>
+                        <p class="product-description">Cancelamento de Ruído, 30h bateria</p>
+                        <p class="price">R$ 399,99</p>
+                        <button class="btn-primary">Adicionar ao Carrinho</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">⌚</div>
+                    <div class="product-info">
+                        <h3>Smartwatch Fitness</h3>
+                        <p class="product-description">Monitor cardíaco, GPS, à prova d'água</p>
+                        <p class="price">R$ 599,99</p>
+                        <button class="btn-primary">Adicionar ao Carrinho</button>
+                    </div>
+                </div>
+
             </div>
         </div>
-    </section>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>TechStyle</h3>
+                    <p>A melhor loja virtual de tecnologia e estilo de vida.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Links Rápidos</h3>
+                    <ul>
+                        <li><a href="home.html">Início</a></li>
+                        <li><a href="#produtos">Produtos</a></li>
+                        <li><a href="#carrinho">Carrinho</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contato</h3>
+                    <ul>
+                        <li>Email: contato@techstyle.com</li>
+                        <li>Telefone: (11) 9999-9999</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 TechStyle. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
     <script src="auth.js"></script>
+    <script>
+        function showProducts() {
+            document.getElementById('products-section').style.display = 'block';
+            document.querySelector('.welcome-section button').style.display = 'none';
+        }
+    </script>
 </body>
 </html>
