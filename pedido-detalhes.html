@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedido Confirmado - TechStyle</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase.js"></script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">🛍️ TechStyle</div>
+                <nav>
+                    <ul>
+                        <li><a href="home.html">Início</a></li>
+                        <li><a href="produtos.html">Produtos</a></li>
+                        <li><a href="carrinho.html">Carrinho (<span id="cart-count">0</span>)</a></li>
+                        <li><a href="dados.html">Meus Dados</a></li>
+                        <li class="user-welcome" id="user-welcome">
+                            👋 Olá, <span id="user-name">Usuário</span>
+                        </li>
+                        <li><a href="#" id="logout-btn">Sair</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="page-header">
+            <h1>🎉 Pedido Confirmado!</h1>
+            <p>Seu pedido foi recebido com sucesso</p>
+        </div>
+        
+        <div class="order-confirmation">
+            <div class="confirmation-card">
+                <div class="confirmation-icon">✅</div>
+                <h2>Pagamento em Processamento</h2>
+                
+                <div class="order-info">
+                    <p><strong>Número do Pedido:</strong> <span id="order-number">Carregando...</span></p>
+                    <p><strong>Data:</strong> <span id="order-date">Carregando...</span></p>
+                    <p><strong>Total:</strong> <span id="order-total">Carregando...</span></p>
+                    <p><strong>Status:</strong> <span id="order-status">Carregando...</span></p>
+                </div>
+
+                <div class="payment-info">
+                    <h3>Forma de Pagamento Escolhida</h3>
+                    <p id="payment-method">Carregando...</p>
+                    <p class="note">Em um sistema real, aqui apareceria o QR Code PIX ou formulário de cartão</p>
+                </div>
+
+                <div class="next-steps">
+                    <h3>Próximos Passos</h3>
+                    <ul>
+                        <li>✅ Pedido registrado no sistema</li>
+                        <li>⏳ Aguardando confirmação de pagamento</li>
+                        <li>📦 Preparando para envio</li>
+                        <li>🚚 Produto a caminho</li>
+                    </ul>
+                </div>
+
+                <div class="action-buttons">
+                    <a href="home.html" class="btn-primary">Continuar Comprando</a>
+                    <a href="produtos.html" class="btn-secondary">Ver Mais Produtos</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>TechStyle</h3>
+                    <p>A melhor loja virtual de tecnologia e estilo de vida.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Links Rápidos</h3>
+                    <ul>
+                        <li><a href="home.html">Início</a></li>
+                        <li><a href="produtos.html">Produtos</a></li>
+                        <li><a href="carrinho.html">Carrinho</a></li>
+                        <li><a href="dados.html">Meus Dados</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contato</h3>
+                    <ul>
+                        <li>Email: contato@techstyle.com</li>
+                        <li>Telefone: (11) 9999-9999</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 TechStyle. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="auth.js"></script>
+    <script>
+        // Lógica para carregar dados do pedido
+        async function loadOrderDetails() {
+            try {
+                // Pegar ID do pedido da URL
+                const urlParams = new URLSearchParams(window.location.search);
+                const orderId = urlParams.get('id');
+                
+                if (!orderId) {
+                    document.getElementById('order-number').textContent = 'N/A';
+                    return;
+                }
+
+                const user = await getCurrentUser();
+                if (!user) {
+                    window.location.href = 'login.html';
+                    return;
+                }
+
+                // Buscar dados do pedido
+                const { data: order, error: orderError } = await supabase
+                    .from('orders')
+                    .select('*')
+                    .eq('id', orderId)
+                    .eq('user_id', user.id)
+                    .single();
+
+                if (orderError) throw orderError;
+
+                // Buscar método de pagamento
+                const { data: payment, error: paymentError } = await supabase
+                    .from('payments')
+                    .select('payment_method')
+                    .eq('order_id', orderId)
+                    .single();
+
+                // Atualizar interface
+                document.getElementById('order-number').textContent = `#${order.id.substring(0, 8).toUpperCase()}`;
+                document.getElementById('order-date').textContent = new Date(order.created_at).toLocaleDateString('pt-BR');
+                document.getElementById('order-total').textContent = `R$ ${order.total.toFixed(2).replace('.', ',')}`;
+                document.getElementById('order-status').textContent = order.status;
+                
+                if (payment) {
+                    const methodText = payment.payment_method === 'pix' ? 'PIX' : 'Cartão de Crédito';
+                    document.getElementById('payment-method').textContent = methodText;
+                }
+
+            } catch (error) {
+                console.error('Erro ao carregar detalhes do pedido:', error);
+                document.getElementById('order-number').textContent = 'Erro ao carregar';
+            }
+        }
+
+        // Atualizar contador do carrinho
+        async function updateCartCount() {
+            try {
+                const user = await getCurrentUser();
+                if (!user) {
+                    document.getElementById('cart-count').textContent = '0';
+                    return;
+                }
+                
+                const { data: cart, error } = await supabase
+                    .from('cart_items')
+                    .select('quantity')
+                    .eq('user_id', user.id);
+                
+                if (error) throw error;
+                
+                const totalItems = cart ? cart.reduce((sum, item) => sum + item.quantity, 0) : 0;
+                document.getElementById('cart-count').textContent = totalItems;
+                
+            } catch (error) {
+                console.error('Erro ao atualizar carrinho:', error);
+                document.getElementById('cart-count').textContent = '0';
+            }
+        }
+
+        // Inicializar quando a página carregar
+        document.addEventListener('DOMContentLoaded', function() {
+            loadOrderDetails();
+            updateCartCount();
+        });
+    </script>
+</body>
+</html>

@@ -56,7 +56,7 @@ function displayProducts(products) {
     `).join('');
 }
 
-// Adicionar ao carrinho
+// Adicionar ao carrinho - CORRIGIDA PARA EVITAR DUPLICAÇÃO
 async function addToCart(productId) {
     try {
         const user = await getCurrentUser();
@@ -77,7 +77,7 @@ async function addToCart(productId) {
             return;
         }
         
-        // Verificar se o produto já está no carrinho
+        // VERIFICAR SE JÁ ESTÁ NO CARRINHO - CORREÇÃO AQUI
         const { data: existingItem, error: checkError } = await supabase
             .from('cart_items')
             .select('*')
@@ -90,15 +90,25 @@ async function addToCart(productId) {
         }
         
         if (existingItem) {
-            // Atualizar quantidade
+            // Já está no carrinho - apenas atualizar quantidade
+            const newQuantity = existingItem.quantity + 1;
+            
+            // Verificar se não ultrapassa o estoque
+            if (newQuantity > product.stock) {
+                showError('Quantidade máxima em estoque atingida.');
+                return;
+            }
+            
             const { error: updateError } = await supabase
                 .from('cart_items')
-                .update({ quantity: existingItem.quantity + 1 })
+                .update({ quantity: newQuantity })
                 .eq('id', existingItem.id);
             
             if (updateError) throw updateError;
+            showSuccess('Quantidade atualizada no carrinho!');
+            
         } else {
-            // Adicionar novo item
+            // Não está no carrinho - adicionar novo item
             const { error: insertError } = await supabase
                 .from('cart_items')
                 .insert({
@@ -108,10 +118,10 @@ async function addToCart(productId) {
                 });
             
             if (insertError) throw insertError;
+            showSuccess('Produto adicionado ao carrinho!');
         }
         
         updateCartCount();
-        showSuccess('Produto adicionado ao carrinho!');
         
     } catch (error) {
         console.error('Erro ao adicionar ao carrinho:', error);
