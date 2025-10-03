@@ -6,6 +6,7 @@
     <title>TechStyle - Loja Virtual</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
+        /* (MANTENHA TODOS OS ESTILOS ANTERIORES) */
         :root {
             --primary-color: #4361ee;
             --secondary-color: #3a0ca3;
@@ -333,6 +334,15 @@
             margin-bottom: 0.5rem;
         }
         
+        .debug-info {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 1rem;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+        
         @media (max-width: 768px) {
             .header-content {
                 flex-direction: column;
@@ -351,7 +361,6 @@
     </style>
 </head>
 <body>
-    <!-- Página de Login/Cadastro (index.html) -->
     <div id="index-page">
         <header>
             <div class="container">
@@ -378,7 +387,6 @@
                     <div class="auth-tab" data-tab="register">Cadastro</div>
                 </div>
 
-                <!-- Formulário de Login -->
                 <form id="login-form" class="auth-form active">
                     <div class="form-group">
                         <label for="login-email">E-mail</label>
@@ -392,7 +400,6 @@
                     <div id="login-message" class="message" style="display: none;"></div>
                 </form>
 
-                <!-- Formulário de Cadastro -->
                 <form id="register-form" class="auth-form">
                     <div class="form-group">
                         <label for="register-name">Nome Completo</label>
@@ -418,43 +425,16 @@
                         <p>Enviamos um link de confirmação para seu e-mail.</p>
                         <p><strong>Verifique sua caixa de entrada e clique no link para ativar sua conta.</strong></p>
                     </div>
+
+                    <div class="debug-info">
+                        <strong>Debug Info:</strong>
+                        <div id="debug-content"></div>
+                    </div>
                 </form>
             </div>
         </div>
-
-        <footer>
-            <div class="container">
-                <div class="footer-content">
-                    <div class="footer-section">
-                        <h3>TechStyle</h3>
-                        <p>A melhor loja virtual de tecnologia e estilo de vida. Encontre os melhores produtos com os melhores preços.</p>
-                    </div>
-                    <div class="footer-section">
-                        <h3>Links Rápidos</h3>
-                        <ul>
-                            <li><a href="#">Início</a></li>
-                            <li><a href="#">Produtos</a></li>
-                            <li><a href="#">Sobre Nós</a></li>
-                            <li><a href="#">Contato</a></li>
-                        </ul>
-                    </div>
-                    <div class="footer-section">
-                        <h3>Contato</h3>
-                        <ul>
-                            <li>Email: contato@techstyle.com</li>
-                            <li>Telefone: (11) 9999-9999</li>
-                            <li>Endereço: Rua das Flores, 123 - São Paulo, SP</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="footer-bottom">
-                    <p>&copy; 2023 TechStyle. Todos os direitos reservados.</p>
-                </div>
-            </div>
-        </footer>
     </div>
 
-    <!-- Página Home (após login) -->
     <div id="home-page" style="display: none;">
         <header>
             <div class="container">
@@ -477,89 +457,14 @@
         <div class="container home-container">
             <div class="welcome-section">
                 <h1 id="welcome-message">Bem-vindo à TechStyle!</h1>
-                <p>Encontre os melhores produtos de tecnologia e estilo com os melhores preços do mercado. Explore nossa seleção exclusiva e faça suas compras com segurança.</p>
+                <p id="user-info"></p>
                 <button class="btn">Explorar Produtos</button>
             </div>
-
-            <h2 style="margin-bottom: 1.5rem;">Produtos em Destaque</h2>
-            <div class="products-grid">
-                <div class="product-card">
-                    <div class="product-image">
-                        📱
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-title">Smartphone XYZ Pro</h3>
-                        <p class="product-price">R$ 1.299,99</p>
-                        <button class="product-btn">Adicionar ao Carrinho</button>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <div class="product-image">
-                        💻
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-title">Notebook Ultra</h3>
-                        <p class="product-price">R$ 2.499,99</p>
-                        <button class="product-btn">Adicionar ao Carrinho</button>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <div class="product-image">
-                        🎧
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-title">Fones de Ouvido Pro</h3>
-                        <p class="product-price">R$ 399,99</p>
-                        <button class="product-btn">Adicionar ao Carrinho</button>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <div class="product-image">
-                        ⌚
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-title">Smartwatch Fit</h3>
-                        <p class="product-price">R$ 599,99</p>
-                        <button class="product-btn">Adicionar ao Carrinho</button>
-                    </div>
-                </div>
-            </div>
         </div>
-
-        <footer>
-            <div class="container">
-                <div class="footer-content">
-                    <div class="footer-section">
-                        <h3>TechStyle</h3>
-                        <p>A melhor loja virtual de tecnologia e estilo de vida. Encontre os melhores produtos com os melhores preços.</p>
-                    </div>
-                    <div class="footer-section">
-                        <h3>Links Rápidos</h3>
-                        <ul>
-                            <li><a href="#">Início</a></li>
-                            <li><a href="#">Produtos</a></li>
-                            <li><a href="#">Sobre Nós</a></li>
-                            <li><a href="#">Contato</a></li>
-                        </ul>
-                    </div>
-                    <div class="footer-section">
-                        <h3>Contato</h3>
-                        <ul>
-                            <li>Email: contato@techstyle.com</li>
-                            <li>Telefone: (11) 9999-9999</li>
-                            <li>Endereço: Rua das Flores, 123 - São Paulo, SP</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="footer-bottom">
-                    <p>&copy; 2023 TechStyle. Todos os direitos reservados.</p>
-                </div>
-            </div>
-        </footer>
     </div>
 
     <script>
-        // Configuração do Supabase para Netlify
+        // Configuração do Supabase
         const SUPABASE_URL = 'https://ifjakhtwtekzfzpsvhld.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlmamFraHR3dGVremZ6cHN2aGxkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk0MDk4NzEsImV4cCI6MjA3NDk4NTg3MX0.-2SA8MX7Lr7DjrMc_cBM9KfN1Bwo8ibU3GNks2x3Alc';
         
@@ -575,12 +480,14 @@
         const emailConfirmationMessage = document.getElementById('email-confirmation-message');
         const logoutBtn = document.getElementById('logout-btn');
         const welcomeMessage = document.getElementById('welcome-message');
+        const userInfo = document.getElementById('user-info');
+        const debugContent = document.getElementById('debug-content');
         const authTabs = document.querySelectorAll('.auth-tab');
         
-        // Verificar se o usuário já está logado
+        // Verificar autenticação
         checkAuthState();
         
-        // Alternar entre as abas de login e cadastro
+        // Alternar entre abas
         authTabs.forEach(tab => {
             tab.addEventListener('click', () => {
                 const tabName = tab.getAttribute('data-tab');
@@ -599,7 +506,7 @@
             });
         });
         
-        // Processar formulário de login
+        // Login
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             
@@ -612,18 +519,20 @@
                     password
                 });
                 
+                debugContent.innerHTML = `Login attempt: ${email}<br>Error: ${error ? error.message : 'None'}<br>User: ${data?.user ? data.user.email : 'None'}`;
+                
                 if (error) {
-                    showMessage(loginMessage, error.message, 'error');
+                    showMessage(loginMessage, `Erro: ${error.message}`, 'error');
                 } else {
                     showMessage(loginMessage, 'Login realizado com sucesso!', 'success');
                     showHomePage();
                 }
             } catch (error) {
-                showMessage(loginMessage, 'Erro ao fazer login. Tente novamente.', 'error');
+                showMessage(loginMessage, 'Erro ao fazer login.', 'error');
             }
         });
         
-        // Processar formulário de cadastro COM VERIFICAÇÃO DE E-MAIL
+        // Cadastro
         registerForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             
@@ -655,21 +564,19 @@
                     }
                 });
                 
+                debugContent.innerHTML = `Signup attempt: ${email}<br>Error: ${error ? error.message : 'None'}<br>User ID: ${data?.user?.id || 'None'}<br>Confirmed: ${data?.user?.confirmed_at || 'Not confirmed'}`;
+                
                 if (error) {
                     if (error.message.includes('already registered')) {
-                        showMessage(registerMessage, 'Este e-mail já está cadastrado. Faça login ou recupere sua senha.', 'error');
+                        showMessage(registerMessage, 'Este e-mail já está cadastrado. Faça login.', 'error');
                     } else {
-                        showMessage(registerMessage, error.message, 'error');
+                        showMessage(registerMessage, `Erro: ${error.message}`, 'error');
                     }
                 } else {
-                    // Mostrar mensagem de confirmação de e-mail
                     registerMessage.style.display = 'none';
                     emailConfirmationMessage.style.display = 'block';
-                    
-                    // Limpar o formulário
                     registerForm.reset();
                     
-                    // Alternar para a aba de login após um tempo
                     setTimeout(() => {
                         authTabs.forEach(t => t.classList.remove('active'));
                         document.querySelector('[data-tab="login"]').classList.add('active');
@@ -679,67 +586,62 @@
                     }, 5000);
                 }
             } catch (error) {
-                showMessage(registerMessage, 'Erro ao realizar cadastro. Tente novamente.', 'error');
+                showMessage(registerMessage, 'Erro no cadastro.', 'error');
             }
         });
         
         // Logout
         logoutBtn.addEventListener('click', async (e) => {
             e.preventDefault();
-            
-            const { error } = await supabase.auth.signOut();
-            
-            if (!error) {
-                showIndexPage();
-            }
+            await supabase.auth.signOut();
+            showIndexPage();
         });
         
-        // Função para verificar o estado de autenticação
+        // Verificar autenticação
         async function checkAuthState() {
-            const { data } = await supabase.auth.getSession();
+            const { data, error } = await supabase.auth.getSession();
+            
+            debugContent.innerHTML = `Session check:<br>Error: ${error ? error.message : 'None'}<br>User: ${data?.session?.user ? data.session.user.email : 'None'}<br>Confirmed: ${data?.session?.user?.confirmed_at || 'Not confirmed'}`;
             
             if (data.session) {
-                // Atualizar mensagem de boas-vindas com o nome do usuário
                 const user = data.session.user;
                 const userName = user.user_metadata?.name || user.email;
                 welcomeMessage.textContent = `Bem-vindo, ${userName}!`;
-                
+                userInfo.textContent = `Email: ${user.email} | ID: ${user.id.substring(0, 8)}... | Confirmado: ${user.confirmed_at ? 'Sim' : 'Não'}`;
                 showHomePage();
             } else {
                 showIndexPage();
             }
         }
         
-        // Função para mostrar a página inicial (após login)
         function showHomePage() {
             indexPage.style.display = 'none';
             homePage.style.display = 'block';
         }
         
-        // Função para mostrar a página de login/cadastro
         function showIndexPage() {
             indexPage.style.display = 'block';
             homePage.style.display = 'none';
         }
         
-        // Função para exibir mensagens
         function showMessage(element, message, type) {
             element.textContent = message;
             element.className = `message ${type}`;
             element.style.display = 'block';
-            
             setTimeout(() => {
                 element.style.display = 'none';
             }, 5000);
         }
         
-        // Verificar se há confirmação de e-mail na URL
+        // Verificar confirmação de email na URL
         const urlParams = new URLSearchParams(window.location.hash.substring(1));
         const type = urlParams.get('type');
         const accessToken = urlParams.get('access_token');
         
-        if (type === 'recovery' || accessToken) {
-            showMessage(loginMessage, 'E-mail confirmado com sucesso! Faça login para continuar.', 'success');
+        if (type === 'signup' && accessToken) {
+            showMessage(loginMessage, 'Email confirmado com sucesso! Faça login.', 'success');
+            // Limpar a URL
+            window.history.replaceState({}, document.title, window.location.pathname);
         }
     </script>
 </body>
